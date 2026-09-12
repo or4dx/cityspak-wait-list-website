@@ -1,17 +1,12 @@
-import { Sparkles } from "lucide-react";
+import { CitySpakMark } from "./CitySpakMark";
 
 export function Header() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 border-b border-cs-border bg-cs-bg/70 backdrop-blur-md">
       <div className="container-custom py-4">
         <div className="flex items-center justify-between">
-          <a href="/" className="group flex items-center gap-2">
-            <div className="relative">
-              <div className="absolute inset-0 rounded-xl bg-cs-accent opacity-40 blur-lg transition-opacity group-hover:opacity-60" />
-              <div className="relative rounded-xl bg-cs-accent p-2">
-                <Sparkles className="h-6 w-6 text-cs-bg" />
-              </div>
-            </div>
+          <a href="/" className="flex items-center gap-2.5" aria-label="CitySpak home">
+            <CitySpakMark size={32} />
             <span className="font-serif text-2xl font-bold text-cs-text">CitySpak</span>
           </a>
 
