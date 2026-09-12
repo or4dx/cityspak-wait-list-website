@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Single dark theme, deliberately, per the spec: this is a marketing/
+   investor-facing property, not the CitySpak app, no light/dark toggle. */
+:root {
+  --bg: #08080f;
+  --surface: #1e2538;
+  --surface-hi: #2a354f;
+  --border: #2e3c57;
+  --green: #22c55e;
+  --green-dim: #16a34a;
+  --amber: #f59e0b;
+  --blue: #60a5fa;
+  --chalk: #f1f5f9;
+  --chalk-dim: #94a3b8;
+  --chalk-mute: #4a5568;
+  --red: #ef4444;
+  --radius: 10px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--chalk);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
