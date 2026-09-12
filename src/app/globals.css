@@ -2,31 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Single dark theme, deliberately, per the spec: this is a marketing/
-   investor-facing property, not the CitySpak app, no light/dark toggle. */
+/* Design tokens transcribed from the main CitySpak app's own
+   apps/web/src/styles/globals.css (Ambient Green), so this site reads as
+   the same brand. Light is the shipped default there; the dark block here
+   is a system-preference fallback (prefers-color-scheme), not a JS toggle,
+   this is a lightweight marketing page, not the app. */
 :root {
-  --bg: #08080f;
-  --surface: #1e2538;
-  --surface-hi: #2a354f;
-  --border: #2e3c57;
-  --green: #22c55e;
-  --green-dim: #16a34a;
-  --amber: #f59e0b;
-  --blue: #60a5fa;
-  --chalk: #f1f5f9;
-  --chalk-dim: #94a3b8;
-  --chalk-mute: #4a5568;
-  --red: #ef4444;
-  --radius: 10px;
+  --cs-bg: 250 247 242; /* #FAF7F2 */
+  --cs-surface: 255 255 255; /* #FFFFFF */
+  --cs-surface-elevated: 240 236 227; /* #F0ECE3 */
+  --cs-accent: 5 150 105; /* #059669 */
+  --cs-accent-hover: 4 120 87; /* #047857 */
+  --cs-warm: 234 88 12; /* #EA580C */
+  --cs-text: 28 25 23; /* #1C1917 */
+  --cs-text-muted: 120 113 108; /* #78716C */
+  --cs-text-subtle: 168 162 158; /* #A8A29E */
+  --cs-border: 28 25 23; /* channels */
+  --cs-border-opacity: 0.07;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cs-bg: 12 10 9; /* #0C0A09 */
+    --cs-surface: 28 25 23; /* #1C1917 */
+    --cs-surface-elevated: 41 37 36; /* #292524 */
+    --cs-accent: 52 211 153; /* #34D399 */
+    --cs-accent-hover: 16 185 129; /* #10B981 */
+    --cs-warm: 251 146 60; /* #FB923C */
+    --cs-text: 250 250 249; /* #FAFAF9 */
+    --cs-text-muted: 168 162 158; /* #A8A29E */
+    --cs-text-subtle: 87 83 78; /* #57534E */
+    --cs-border: 250 250 249; /* channels */
+    --cs-border-opacity: 0.06;
+  }
 }
 
 body {
-  background: var(--bg);
-  color: var(--chalk);
+  background: rgb(var(--cs-bg));
+  color: rgb(var(--cs-text));
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+@layer components {
+  .container-custom {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+}
+
+/* Same "breathing" ambient glow + drifting sparkle motif as the app's own
+   hero (apps/web/src/styles/globals.css), transcribed as-is. */
+@keyframes cs-breathe {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.12); filter: brightness(1.15); }
+}
+.animate-cs-breathe {
+  animation: cs-breathe 14s ease-in-out infinite;
+}
+
+@keyframes cs-sparkle {
+  0% { transform: translateY(0) scale(0.4); opacity: 0; }
+  20% { transform: translateY(-25px) scale(1.4); opacity: 1; }
+  35% { transform: translateY(-45px) scale(0.85); opacity: 0.35; }
+  50% { transform: translateY(-65px) scale(1.4); opacity: 1; }
+  70% { transform: translateY(-95px) scale(0.85); opacity: 0.3; }
+  100% { transform: translateY(-135px) scale(0.5); opacity: 0; }
+}
+.animate-cs-sparkle {
+  animation-name: cs-sparkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }

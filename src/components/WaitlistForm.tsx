@@ -11,6 +11,10 @@ const EXPERIENCE_FOCUS_OPTIONS = [
 
 type Status = "idle" | "submitting" | "success" | "error";
 
+const inputClass =
+  "w-full rounded-lg border border-cs-border bg-cs-surface px-3.5 py-2.5 text-sm text-cs-text outline-none transition-colors focus:border-cs-accent";
+const labelClass = "mb-1.5 block text-xs font-medium text-cs-text-muted";
+
 export function WaitlistForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -49,9 +53,9 @@ export function WaitlistForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-cs border border-cs-green/30 bg-cs-green/[0.08] p-6 text-center">
-        <p className="text-base font-medium text-cs-chalk">You&apos;re on the list.</p>
-        <p className="mt-1 text-sm text-cs-chalk-dim">We&apos;ll be in touch.</p>
+      <div className="rounded-2xl border border-cs-accent/30 bg-cs-accent/[0.08] p-6 text-center">
+        <p className="text-base font-medium text-cs-text">You&apos;re on the list.</p>
+        <p className="mt-1 text-sm text-cs-text-muted">We&apos;ll be in touch.</p>
       </div>
     );
   }
@@ -60,46 +64,25 @@ export function WaitlistForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="firstName" className="mb-1.5 block text-xs font-medium text-cs-chalk-dim">
+          <label htmlFor="firstName" className={labelClass}>
             First name
           </label>
-          <input
-            id="firstName"
-            name="firstName"
-            type="text"
-            required
-            className="w-full rounded-cs border border-cs-border bg-cs-surface px-3.5 py-2.5 text-sm text-cs-chalk outline-none focus:border-cs-green"
-          />
+          <input id="firstName" name="firstName" type="text" required className={inputClass} />
         </div>
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-cs-chalk-dim">
+          <label htmlFor="email" className={labelClass}>
             Email
           </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="w-full rounded-cs border border-cs-border bg-cs-surface px-3.5 py-2.5 text-sm text-cs-chalk outline-none focus:border-cs-green"
-          />
+          <input id="email" name="email" type="email" required className={inputClass} />
         </div>
         <div>
-          <label htmlFor="city" className="mb-1.5 block text-xs font-medium text-cs-chalk-dim">
+          <label htmlFor="city" className={labelClass}>
             City
           </label>
-          <input
-            id="city"
-            name="city"
-            type="text"
-            required
-            className="w-full rounded-cs border border-cs-border bg-cs-surface px-3.5 py-2.5 text-sm text-cs-chalk outline-none focus:border-cs-green"
-          />
+          <input id="city" name="city" type="text" required className={inputClass} />
         </div>
         <div>
-          <label
-            htmlFor="experienceFocus"
-            className="mb-1.5 block text-xs font-medium text-cs-chalk-dim"
-          >
+          <label htmlFor="experienceFocus" className={labelClass}>
             Experience focus
           </label>
           <select
@@ -107,7 +90,7 @@ export function WaitlistForm() {
             name="experienceFocus"
             required
             defaultValue=""
-            className="w-full rounded-cs border border-cs-border bg-cs-surface px-3.5 py-2.5 text-sm text-cs-chalk outline-none focus:border-cs-green"
+            className={inputClass}
           >
             <option value="" disabled>
               Select one
@@ -122,13 +105,13 @@ export function WaitlistForm() {
       </div>
 
       {status === "error" && errorMessage && (
-        <p className="text-sm text-cs-red">{errorMessage}</p>
+        <p className="text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
       )}
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="rounded-cs bg-cs-green px-6 py-3 text-sm font-semibold text-cs-bg transition hover:bg-cs-green-dim disabled:cursor-not-allowed disabled:opacity-60"
+        className="rounded-lg bg-cs-accent px-6 py-3 text-sm font-semibold text-cs-bg transition-all hover:bg-cs-accent-hover hover:shadow-lg hover:shadow-cs-accent/25 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? "Joining…" : "Join the waitlist"}
       </button>

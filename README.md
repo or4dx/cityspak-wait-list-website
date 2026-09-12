@@ -34,6 +34,13 @@ pnpm dev
 
 ## Design
 
-Single dark theme (no light/dark toggle, this is a marketing page, not the
-app), tokens in `src/app/globals.css` / `tailwind.config.ts`. Fonts: Outfit
-(sans) + DM Mono (mono), loaded via `next/font/google`.
+Matches the main CitySpak app's own marketing landing page
+(`apps/web/src/components/home/MarketingLanding.tsx`) for brand
+uniformity, not the dark investor-deck mockups this was first built from.
+Same `cs-*` tokens (transcribed from the app's `globals.css`), same
+asymmetric 2-color palette (emerald accent, orange warm as a lighter
+contrast signal, never a third arbitrary color), same font system (Inter/
+Playfair Display/DM Mono), same ambient-glow + drifting-sparkle hero
+motif. Light is the default (matching the app's shipped default); dark is
+a `prefers-color-scheme` fallback, not a JS toggle, this is a lightweight
+marketing page, not the full app.

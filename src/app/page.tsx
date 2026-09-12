@@ -1,3 +1,4 @@
+import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { ProblemStatement } from "@/components/ProblemStatement";
 import { DemandDashboard } from "@/components/DemandDashboard";
@@ -6,7 +7,8 @@ import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <main className="min-h-screen bg-cs-bg">
+      <Header />
       <Hero />
       <ProblemStatement />
       <DemandDashboard />

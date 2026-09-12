@@ -1,10 +1,6 @@
-type Accent = "green" | "amber" | "blue";
-
-const ACCENT_BORDER: Record<Accent, string> = {
-  green: "before:bg-cs-green",
-  amber: "before:bg-cs-amber",
-  blue: "before:bg-cs-blue",
-};
+// Two-color system only (emerald accent, orange warm), matching the main
+// app's asymmetric-palette rule, no third arbitrary color for a third tile.
+type Accent = "accent" | "warm";
 
 interface StatTileProps {
   label: string;
@@ -14,20 +10,19 @@ interface StatTileProps {
   accent?: Accent;
 }
 
-export function StatTile({ label, value, unit, sub, accent = "green" }: StatTileProps) {
+export function StatTile({ label, value, unit, sub, accent = "accent" }: StatTileProps) {
+  const valueColor = accent === "warm" ? "text-cs-warm" : "text-cs-accent";
+
   return (
-    <div
-      className={`relative overflow-hidden rounded-cs border border-cs-border bg-cs-surface p-5 pb-4
-        before:absolute before:inset-x-0 before:top-0 before:h-[3px] ${ACCENT_BORDER[accent]}`}
-    >
-      <div className="mb-2 text-[11px] font-medium uppercase tracking-wider text-cs-chalk-dim">
+    <div className="rounded-2xl border border-cs-border bg-cs-surface p-6">
+      <div className="mb-2 text-[11px] font-medium uppercase tracking-wider text-cs-text-muted">
         {label}
       </div>
-      <div className="font-mono text-[36px] font-medium leading-none text-cs-chalk tabular-nums">
+      <div className={`font-mono text-4xl font-bold leading-none tabular-nums ${valueColor}`}>
         {value}
-        {unit && <span className="ml-1 text-base text-cs-chalk-dim">{unit}</span>}
+        {unit && <span className="ml-1 text-base font-normal text-cs-text-muted">{unit}</span>}
       </div>
-      {sub && <div className="mt-1.5 text-xs leading-snug text-cs-chalk-dim">{sub}</div>}
+      {sub && <div className="mt-2 text-xs leading-snug text-cs-text-muted">{sub}</div>}
     </div>
   );
 }
