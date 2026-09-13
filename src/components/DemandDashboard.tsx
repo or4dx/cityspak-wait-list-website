@@ -1,10 +1,29 @@
 import { StatTile } from "./StatTile";
 import { BarChart } from "./BarChart";
-import { SHOW_TOTAL_COUNT, surveyData } from "@/lib/survey-data";
+import { SHOW_TOTAL_COUNT, surveyData as staticSurveyData, type SurveyData } from "@/lib/survey-data";
+import { fetchLiveSurveyData } from "@/lib/survey-sheet";
 
-export function DemandDashboard() {
-  const { severePct, avgIntentScore, betaCount, tools, features, frequency, wtp, openText, totalCount } =
-    surveyData;
+// The re-fetch interval (revalidate) lives in src/app/page.tsx, this file
+// isn't a route segment so Next.js wouldn't apply it from here.
+async function getSurveyData(): Promise<SurveyData> {
+  try {
+    return await fetchLiveSurveyData();
+  } catch (err) {
+    // Public, investor-facing page, a bad credential or a Sheets hiccup
+    // should never blank out the dashboard, fall back to the last known
+    // good static snapshot instead.
+    console.error("Falling back to static survey data:", err);
+    return staticSurveyData;
+  }
+}
+
+export async function DemandDashboard() {
+  const { severePct, avgIntentScore, betaCount, tools, features, frequency, wtp, totalCount } =
+    await getSurveyData();
+  const willingToPayPct = wtp.tier1 + wtp.tier2;
+  // Always the hand-picked quotes, never live free text, see the comment
+  // on fetchLiveSurveyData's openText for why.
+  const openText = staticSurveyData.openText;
 
   return (
     <section id="demand" className="section-padding bg-cs-bg">
@@ -69,8 +88,8 @@ export function DemandDashboard() {
             ]}
             insight={
               <>
-                <strong className="text-cs-accent">67% rely on asking a friend.</strong> That
-                friend is what CitySpak replaces.
+                <strong className="text-cs-accent">{tools.friends}% rely on asking a friend.</strong>{" "}
+                That friend is what CitySpak replaces.
               </>
             }
           />
@@ -103,7 +122,7 @@ export function DemandDashboard() {
             ]}
             insight={
               <>
-                <strong className="text-cs-accent">78% feel this regularly.</strong> The
+                <strong className="text-cs-accent">{severePct}% feel this regularly.</strong> The
                 problem is consistent, not occasional.
               </>
             }
@@ -119,8 +138,8 @@ export function DemandDashboard() {
             ]}
             insight={
               <>
-                <strong className="text-cs-accent">50% willing to pay</strong> before the
-                product even exists. That number grows after using it.
+                <strong className="text-cs-accent">{willingToPayPct}% willing to pay</strong>{" "}
+                before the product even exists. That number grows after using it.
               </>
             }
           />
