@@ -37,9 +37,10 @@ export function Hero() {
             the people who actually live in it.
           </h1>
           <p className="mx-auto mt-6 max-w-md text-base text-cs-text-muted">
-            CitySpak turns what real locals actually know into experiences you
-            can&apos;t just Google. Not everything the city has, just what&apos;s
-            actually worth your time.
+            Real intelligence, not guesswork. CitySpak surfaces what locals already
+            know, so you end up somewhere genuinely good, not just highly rated. We
+            curate just not everything the city has, but what&apos;s actually worth
+            your time.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
