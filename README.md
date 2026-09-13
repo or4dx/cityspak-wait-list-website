@@ -19,11 +19,14 @@ own design, no dependency on the main app's backend.
   fetch once the Google Sheets integration (planned on the main CitySpak
   repo's admin side) exists, same shape, no component here needs to change.
 - **Waitlist signups** (`src/app/api/waitlist/route.ts`): written to a local
-  JSON file (`data/waitlist.json`, gitignored, real PII). **This does not
+  `.xlsx` workbook (`data/waitlist.xlsx`, gitignored, real PII), one row per
+  signup, updated in place, a repeat email overwrites its existing row
+  rather than duplicating it or spawning a new file. **This does not
   persist on Vercel** (ephemeral filesystem), it's dev/local-only for now.
   Before deploying, swap this for something durable: forward to an email
   service (Resend), a lightweight hosted DB, or append to the same Google
-  Sheet the survey data will read from.
+  Sheet the survey data will read from (see `.env.local` for the
+  service-account variables staged for that, not wired up yet).
 
 ## Running locally
 
