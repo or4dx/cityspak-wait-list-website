@@ -20,6 +20,14 @@ export function DemandDashboard() {
             We ran an open survey before writing a single line of code. These are the live
             results, updated as responses come in.
           </p>
+          <a
+            href="https://form.typeform.com/to/QXGKh5b4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex h-11 items-center gap-2 rounded-lg border border-cs-border px-6 text-sm font-semibold text-cs-text-muted transition-all hover:text-cs-text"
+          >
+            Take the survey
+          </a>
         </div>
 
         <div className="mb-3 flex items-center justify-center gap-[7px] font-mono text-xs text-cs-text-muted">
