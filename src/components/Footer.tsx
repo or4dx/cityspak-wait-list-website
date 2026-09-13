@@ -11,7 +11,7 @@ export function Footer() {
           </div>
           <p className="text-sm text-cs-text-muted">Urban Experience Intelligence</p>
           <div className="border-t border-cs-border pt-6 text-xs text-cs-text-muted">
-            <p>cityspak.com · Startup Qatar Investment Program 2026</p>
+            <p>cityspak.live</p>
           </div>
         </div>
       </div>

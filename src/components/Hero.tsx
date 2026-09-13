@@ -32,14 +32,14 @@ export function Hero() {
             Coming soon · Early access
           </p>
           <h1 className="text-balance font-serif text-5xl font-bold leading-[1.1] text-cs-text md:text-7xl">
-            The city is full.
+            The city, decoded by
             <br />
-            Your weekend is empty.{" "}
-            <span className="text-cs-accent">We are fixing that.</span>
+            the people who actually live in it.
           </h1>
           <p className="mx-auto mt-6 max-w-md text-base text-cs-text-muted">
-            CitySpak curates real, situation-specific experiences from people who actually
-            live in the city, so you stop scrolling five apps for one good answer.
+            CitySpak turns what real locals actually know into experiences you
+            can&apos;t just Google. Not everything the city has, just what&apos;s
+            actually worth your time.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
