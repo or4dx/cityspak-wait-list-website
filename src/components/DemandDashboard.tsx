@@ -59,7 +59,7 @@ export function DemandDashboard() {
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
           <BarChart
             title="How people currently find things to do"
-            sub="Multiple choice — % of respondents"
+            sub="Multiple choice, % of respondents"
             rows={[
               { label: "Ask friends", pct: tools.friends, color: "accent" },
               { label: "Instagram / TikTok", pct: tools.instagram, color: "warm" },
@@ -77,7 +77,7 @@ export function DemandDashboard() {
 
           <BarChart
             title="Most wanted feature in an experience app"
-            sub="Single choice — % of respondents"
+            sub="Single choice, % of respondents"
             rows={[
               { label: "Curated lists by situation", pct: features.curatedLists, color: "accent" },
               { label: "Find new places early", pct: features.newPlaces, color: "warm" },
@@ -94,7 +94,7 @@ export function DemandDashboard() {
 
           <BarChart
             title="How often people feel like they're missing out"
-            sub="Single choice — % of respondents"
+            sub="Single choice, % of respondents"
             rows={[
               { label: "Almost always", pct: frequency.almostAlways, color: "accent" },
               { label: "Often", pct: frequency.often, color: "accent" },
@@ -111,7 +111,7 @@ export function DemandDashboard() {
 
           <BarChart
             title="Willingness to pay monthly"
-            sub="Single choice — % of those who answered"
+            sub="Single choice, % of those who answered"
             rows={[
               { label: "Free only", pct: wtp.free, color: "subtle" },
               { label: "$4 – $7 / month", pct: wtp.tier1, color: "accent" },

@@ -62,11 +62,11 @@ export const surveyData: SurveyData = {
       city: "Dubai",
     },
     {
-      text: "People who don't only go out to brunches and bars — somewhere to meet and connect with others doing different things.",
+      text: "People who don't only go out to brunches and bars, somewhere to meet and connect with others doing different things.",
       city: "Dubai",
     },
     {
-      text: "More precise details and real information about places in the city — not just the highlight reel.",
+      text: "More precise details and real information about places in the city, not just the highlight reel.",
       city: "Dubai",
     },
   ],

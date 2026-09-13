@@ -22,9 +22,9 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CitySpak — Join the Waitlist",
+  title: "CitySpak: Join the Waitlist",
   description:
-    "The city is full. Your weekend is empty. CitySpak is fixing that — join the waitlist for early access.",
+    "The city is full. Your weekend is empty. CitySpak is fixing that. Join the waitlist for early access.",
 };
 
 export default function RootLayout({

@@ -4,7 +4,7 @@ interface CitySpakMarkProps {
 }
 
 /**
- * The CitySpak brand mark — "Facet" (ADR-0009). A leaning, gem-cut drop in
+ * The CitySpak brand mark, "Facet" (ADR-0009). A leaning, gem-cut drop in
  * the Ambient Green brand ramp. Ported verbatim from the main CitySpak
  * app's apps/web/src/components/brand/CitySpakMark.tsx (source of truth:
  * docs/brand/cityspak-mark.svg in that repo). Theme-independent, the mark
