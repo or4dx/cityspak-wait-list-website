@@ -27,6 +27,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # waitlist signups — real PII (name/email/city), local-dev-only storage,
 # never commit this. See src/app/api/waitlist/route.ts's own warning about

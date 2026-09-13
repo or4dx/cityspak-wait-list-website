@@ -14,19 +14,25 @@ own design, no dependency on the main app's backend.
 
 ## Data sources, current state
 
-- **Survey stats** (`src/lib/survey-data.ts`): hardcoded, matches the
-  latest manual snapshot from the provided mockups. Swap this for a live
-  fetch once the Google Sheets integration (planned on the main CitySpak
-  repo's admin side) exists, same shape, no component here needs to change.
-- **Waitlist signups** (`src/app/api/waitlist/route.ts`): written to a local
-  `.xlsx` workbook (`data/waitlist.xlsx`, gitignored, real PII), one row per
-  signup, updated in place, a repeat email overwrites its existing row
-  rather than duplicating it or spawning a new file. **This does not
-  persist on Vercel** (ephemeral filesystem), it's dev/local-only for now.
-  Before deploying, swap this for something durable: forward to an email
-  service (Resend), a lightweight hosted DB, or append to the same Google
-  Sheet the survey data will read from (see `.env.local` for the
-  service-account variables staged for that, not wired up yet).
+- **Survey stats** (`src/lib/survey-data.ts`): still hardcoded for now. Will
+  be replaced by a live read from `SURVEY_GOOGLE_SHEET_ID` (the
+  Typeform-linked survey responses sheet, read-only), same output shape, no
+  component here needs to change when that lands.
+- **Waitlist signups** (`src/app/api/waitlist/route.ts` +
+  `src/lib/google-sheets.ts`): written straight to a Google Sheet
+  (`WAITLIST_GOOGLE_SHEET_ID`) via the Sheets API, durable, survives
+  Netlify/Vercel's ephemeral filesystem, never touches git. A repeat email
+  updates its existing row in place rather than duplicating it.
+  - The sheet has two tabs, **Test** and **Live**. Which one gets written
+    to is automatic: local dev (`pnpm dev`) defaults to **Test**, a
+    production build defaults to **Live**, so local testing can never mix
+    with real signups. Override with `WAITLIST_SHEET_TAB` if a deploy
+    context needs something else (e.g. a Netlify deploy preview, which
+    still builds in production mode but shouldn't collect real signups).
+  - Two entirely separate Google Sheets are in play, never confuse them:
+    the waitlist sheet (this app writes to it, Editor access) and the
+    survey responses sheet (this app only ever reads from it, Viewer access
+    only, sharing it as Editor here would be a mistake).
 
 ## Running locally
 
