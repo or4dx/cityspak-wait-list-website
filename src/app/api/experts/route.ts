@@ -1,12 +1,63 @@
 import { NextResponse } from "next/server";
+import { appendSurveySubmission } from "@/lib/experts-sheet";
+import type { ExpertsSurveyPayload, VenueSubmission } from "@/lib/experts-types";
 
 /**
- * Forwards a venue expert survey submission to an external webhook (Zapier,
- * Make, or a custom endpoint), server-side, so SURVEY_WEBHOOK_URL itself
- * never reaches the browser bundle. Mirrors src/app/api/waitlist/route.ts's
- * shape: validate the minimum, forward, surface a clear error rather than
- * silently dropping the submission.
+ * Venue expert survey submissions go straight to a Google Sheet (see
+ * src/lib/experts-sheet.ts), same pattern as the waitlist signups, not an
+ * external webhook. Requires GOOGLE_SERVICE_ACCOUNT_EMAIL,
+ * GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, and EXPERTS_GOOGLE_SHEET_ID to be set.
  */
+
+function isVenueSubmission(value: unknown): value is VenueSubmission {
+  if (!value || typeof value !== "object") return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.category === "string" &&
+    typeof v.visit_type === "string" &&
+    typeof v.last_visited === "string" &&
+    typeof v.score === "number" &&
+    typeof v.best_for === "string" &&
+    typeof v.recommend === "string" &&
+    typeof v.tip === "string"
+  );
+}
+
+function parsePayload(body: Record<string, unknown>): ExpertsSurveyPayload | null {
+  if (typeof body.submitted_at !== "string") return null;
+  if (typeof body.name !== "string") return null;
+  if (typeof body.handle !== "string") return null;
+  if (typeof body.content_focus !== "string") return null;
+  if (typeof body.venues_visited_estimate !== "string") return null;
+
+  const venuesRaw = body.venues;
+  if (!venuesRaw || typeof venuesRaw !== "object") return null;
+  const venues: Record<string, VenueSubmission> = {};
+  for (const [name, entry] of Object.entries(venuesRaw as Record<string, unknown>)) {
+    if (!isVenueSubmission(entry)) return null;
+    venues[name] = entry;
+  }
+  if (Object.keys(venues).length === 0) return null;
+
+  const suggestedRaw = body.suggested_additions;
+  const suggested_additions: Record<string, string> = {};
+  if (suggestedRaw && typeof suggestedRaw === "object") {
+    for (const [category, text] of Object.entries(suggestedRaw as Record<string, unknown>)) {
+      if (typeof text === "string" && text.trim()) suggested_additions[category] = text;
+    }
+  }
+
+  return {
+    submitted_at: body.submitted_at,
+    name: body.name,
+    handle: body.handle,
+    content_focus: body.content_focus,
+    venues_visited_estimate: body.venues_visited_estimate,
+    venues,
+    suggested_additions,
+  };
+}
+
 export async function POST(request: Request) {
   let body: Record<string, unknown>;
   try {
@@ -15,31 +66,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Invalid request body." }, { status: 400 });
   }
 
-  const venues = body.venues as Record<string, unknown> | undefined;
-  if (!venues || typeof venues !== "object" || Object.keys(venues).length === 0) {
-    return NextResponse.json({ message: "Mark at least one venue as visited before submitting." }, { status: 400 });
-  }
-
-  const webhookUrl = process.env.SURVEY_WEBHOOK_URL;
-  if (!webhookUrl) {
-    console.error("SURVEY_WEBHOOK_URL is not set, dropping a survey submission.");
+  const payload = parsePayload(body);
+  if (!payload) {
     return NextResponse.json(
-      { message: "Survey submissions aren't accepted yet. Please try again shortly." },
-      { status: 503 }
+      { message: "Mark at least one venue as visited before submitting." },
+      { status: 400 }
     );
   }
 
   try {
-    const res = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      throw new Error(`Webhook responded with status ${res.status}`);
-    }
+    await appendSurveySubmission(payload);
   } catch (err) {
-    console.error("Failed to forward survey submission to webhook:", err);
+    console.error("Failed to write expert survey submission to Google Sheets:", err);
     return NextResponse.json(
       { message: "Something went wrong saving your responses. Please try again." },
       { status: 500 }

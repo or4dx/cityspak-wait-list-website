@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CitySpakMark } from "@/components/CitySpakMark";
 import { ChipGroup } from "./ChipGroup";
 import { VenueAvatar } from "./VenueAvatar";
 import { VenueRow } from "./VenueRow";
@@ -194,11 +193,7 @@ export function ExpertsSurvey() {
 
   return (
     <div className="mx-auto max-w-2xl px-5 pb-16 pt-24">
-      <div className="mb-9 flex items-center justify-between border-b border-cs-border pb-5">
-        <div className="flex items-center gap-2.5">
-          <CitySpakMark size={28} />
-          <span className="font-serif text-xl font-bold text-cs-text">CitySpak</span>
-        </div>
+      <div className="mb-9 flex justify-center border-b border-cs-border pb-5">
         <span className="rounded-full border border-cs-accent/30 bg-cs-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-cs-accent">
           Venue Expert Program
         </span>
