@@ -11,7 +11,7 @@ export function Header() {
           </a>
 
           <a
-            href="#waitlist"
+            href="/#waitlist"
             className="rounded-lg bg-cs-accent px-4 py-2 text-sm font-semibold text-cs-bg transition-all hover:bg-cs-accent-hover"
           >
             Join the waitlist
