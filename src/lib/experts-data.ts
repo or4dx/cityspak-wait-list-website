@@ -16,7 +16,9 @@ export interface VenueEntry {
 
 export interface ExpertCategory {
   id: string;
-  icon: string;
+  /** Key into CATEGORY_ICONS (src/components/experts/category-icons.tsx),
+   * matching the site's own lucide-react icon set instead of emoji. */
+  iconKey: string;
   name: string;
   /** Fallback background color for this category's venue avatars when a
    * handle is missing or its image fails to load. Category-level venue
@@ -48,7 +50,7 @@ function v(name: string, location: string, closed: 0 | 1, instagramHandle: strin
 export const EXPERT_CATEGORIES: ExpertCategory[] = [
   {
     id: "c1",
-    icon: "🌍",
+    iconKey: "globe",
     name: "African, Caribbean & Latin",
     color: "#C4622D",
     venues: [
@@ -68,7 +70,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c2",
-    icon: "🕌",
+    iconKey: "landmark",
     name: "Emirati & Heritage Arabic",
     color: "#B8872A",
     venues: [
@@ -83,7 +85,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c3",
-    icon: "🍽️",
+    iconKey: "chef-hat",
     name: "Creative & Unique Dining",
     color: "#7B52C0",
     venues: [
@@ -103,7 +105,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c4",
-    icon: "🕵️",
+    iconKey: "martini",
     name: "Speakeasies & Hidden Bars",
     color: "#A83050",
     venues: [
@@ -121,7 +123,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c5",
-    icon: "🎵",
+    iconKey: "disc-3",
     name: "Dance Venues & Clubs",
     color: "#2D6FBF",
     venues: [
@@ -132,7 +134,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c6",
-    icon: "🎷",
+    iconKey: "music",
     name: "Live Music",
     color: "#C45A2A",
     venues: [
@@ -145,7 +147,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c7",
-    icon: "🥂",
+    iconKey: "sunrise",
     name: "Brunch",
     color: "#B03080",
     venues: [
@@ -158,7 +160,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c8",
-    icon: "☕",
+    iconKey: "coffee",
     name: "Coffee & Cafes",
     color: "#8A5C30",
     venues: [
@@ -174,7 +176,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c9",
-    icon: "🎨",
+    iconKey: "palette",
     name: "Art, Culture & Heritage",
     color: "#287A70",
     venues: [
@@ -188,7 +190,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c10",
-    icon: "🏕️",
+    iconKey: "tent",
     name: "Outdoor & Adventure",
     color: "#3A8A4A",
     venues: [
@@ -200,7 +202,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c11",
-    icon: "🧘",
+    iconKey: "flower-2",
     name: "Wellness",
     color: "#6B50A8",
     venues: [
@@ -211,7 +213,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c12",
-    icon: "😂",
+    iconKey: "drama",
     name: "Comedy & Entertainment",
     color: "#9A7A20",
     venues: [
@@ -221,7 +223,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c13",
-    icon: "🍜",
+    iconKey: "soup",
     name: "Budget & Local Institutions",
     color: "#5A8A30",
     venues: [
@@ -241,7 +243,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c14",
-    icon: "🥢",
+    iconKey: "utensils-crossed",
     name: "Community Asian Dining",
     color: "#A83030",
     venues: [
@@ -256,7 +258,7 @@ export const EXPERT_CATEGORIES: ExpertCategory[] = [
   },
   {
     id: "c15",
-    icon: "🛍️",
+    iconKey: "shopping-bag",
     name: "Weekend Markets & Community",
     color: "#207878",
     venues: [

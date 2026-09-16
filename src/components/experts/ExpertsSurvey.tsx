@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ChipGroup } from "./ChipGroup";
 import { VenueAvatar } from "./VenueAvatar";
 import { VenueRow } from "./VenueRow";
+import { CATEGORY_ICONS } from "./category-icons";
 import {
   EXPERT_CATEGORIES,
   FOCUS_OPTIONS,
@@ -325,6 +326,7 @@ export function ExpertsSurvey() {
           <div className="mb-9 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {EXPERT_CATEGORIES.map((cat) => {
               const isOn = selectedCategoryIds.has(cat.id);
+              const Icon = CATEGORY_ICONS[cat.iconKey];
               return (
                 <button
                   key={cat.id}
@@ -337,7 +339,7 @@ export function ExpertsSurvey() {
                   }`}
                 >
                   <span className="absolute right-3.5 top-3.5 text-xs font-bold text-cs-accent">{isOn ? "✓" : ""}</span>
-                  <div className="mb-1.5 text-lg leading-none">{cat.icon}</div>
+                  <Icon className="mb-2 h-5 w-5 text-cs-accent" />
                   <div className={`text-sm font-medium leading-snug ${isOn ? "text-cs-accent" : "text-cs-text"}`}>
                     {cat.name}
                   </div>
