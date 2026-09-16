@@ -11,12 +11,14 @@ import type { ExpertsSurveyPayload } from "./experts-types";
  * the earlier test-data-in-the-real-survey-sheet incident.
  */
 
+// Venue first: it's the distinct factor per row, easiest to scan what was
+// filled in for which venue. Name right after it, then everything else.
 const RESPONSES_HEADER = [
+  "Venue",
   "Name",
   "Handle",
   "Content focus",
   "Venues visited estimate",
-  "Venue",
   "Category",
   "Visit type",
   "Last visited",
@@ -130,11 +132,11 @@ export async function appendSurveySubmission(payload: ExpertsSurveyPayload): Pro
   await ensureHeaderRow(sheets, sheetId, suggestionsTab, SUGGESTIONS_HEADER);
 
   const responseRows = Object.entries(payload.venues).map(([venueName, v]) => [
+    venueName,
     payload.name,
     payload.handle,
     payload.content_focus,
     payload.venues_visited_estimate,
-    venueName,
     v.category,
     v.visit_type,
     v.last_visited,
