@@ -12,14 +12,14 @@ import type { ExpertsSurveyPayload } from "./experts-types";
  */
 
 // Venue first: it's the distinct factor per row, easiest to scan what was
-// filled in for which venue. Name right after it, then everything else.
+// filled in for which venue. Category right after it, then everything else.
 const RESPONSES_HEADER = [
   "Venue",
+  "Category",
   "Name",
   "Handle",
   "Content focus",
   "Venues visited estimate",
-  "Category",
   "Visit type",
   "Last visited",
   "Score",
@@ -133,11 +133,11 @@ export async function appendSurveySubmission(payload: ExpertsSurveyPayload): Pro
 
   const responseRows = Object.entries(payload.venues).map(([venueName, v]) => [
     venueName,
+    v.category,
     payload.name,
     payload.handle,
     payload.content_focus,
     payload.venues_visited_estimate,
-    v.category,
     v.visit_type,
     v.last_visited,
     v.score,
