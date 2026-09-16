@@ -9,18 +9,23 @@ interface VenueRowProps {
   categoryColor: string;
   visited: boolean;
   rating: VenueRatingState | undefined;
+  /** True after a failed submit attempt, so this row can flag its own
+   * missing required fields (everything except the tip). */
+  showIncompleteWarning: boolean;
   onToggleVisited: () => void;
   onChangeRating: (patch: Partial<VenueRatingState>) => void;
   onToggleBestFor: (option: string) => void;
 }
 
 const starClass = "cursor-pointer select-none text-2xl leading-none transition-transform hover:scale-110";
+const fieldWarningClass = "mt-1.5 text-xs text-red-500 dark:text-red-400";
 
 export function VenueRow({
   venue,
   categoryColor,
   visited,
   rating,
+  showIncompleteWarning,
   onToggleVisited,
   onChangeRating,
   onToggleBestFor,
@@ -59,6 +64,7 @@ export function VenueRow({
               onSelect={(option) => onChangeRating({ visitType: option })}
               size="sm"
             />
+            {showIncompleteWarning && !rating.visitType && <p className={fieldWarningClass}>Required.</p>}
           </div>
 
           <div className="mb-4">
@@ -71,6 +77,7 @@ export function VenueRow({
               onSelect={(option) => onChangeRating({ lastVisited: option })}
               size="sm"
             />
+            {showIncompleteWarning && !rating.lastVisited && <p className={fieldWarningClass}>Required.</p>}
           </div>
 
           <div className="mb-4">
@@ -92,6 +99,7 @@ export function VenueRow({
                 </span>
               ))}
             </div>
+            {showIncompleteWarning && rating.score === 0 && <p className={fieldWarningClass}>Required.</p>}
           </div>
 
           <div className="mb-4">
@@ -99,6 +107,7 @@ export function VenueRow({
               Best for <span className="font-normal normal-case tracking-normal text-cs-text-subtle">(all that apply)</span>
             </div>
             <ChipGroup options={BEST_FOR_OPTIONS} selected={rating.bestFor} onToggle={onToggleBestFor} size="sm" />
+            {showIncompleteWarning && rating.bestFor.size === 0 && <p className={fieldWarningClass}>Select at least one.</p>}
           </div>
 
           <div className="mb-4">
@@ -111,11 +120,12 @@ export function VenueRow({
               onSelect={(option) => onChangeRating({ recommend: option })}
               size="sm"
             />
+            {showIncompleteWarning && !rating.recommend && <p className={fieldWarningClass}>Required.</p>}
           </div>
 
           <div>
             <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-cs-text-muted">
-              Insider tip
+              Insider tip <span className="font-normal normal-case tracking-normal text-cs-text-subtle">(optional)</span>
             </div>
             <textarea
               value={rating.tip}

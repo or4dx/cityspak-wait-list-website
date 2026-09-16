@@ -10,6 +10,15 @@ export interface VenueRatingState {
   tip: string;
 }
 
+/** Every rating field is required except the tip, which stays free text.
+ * Shared between ExpertsSurvey (deciding whether submit can proceed) and
+ * VenueRow (deciding whether to show its own inline warning). */
+export function isRatingComplete(rating: VenueRatingState): boolean {
+  return Boolean(
+    rating.visitType && rating.lastVisited && rating.score > 0 && rating.bestFor.size > 0 && rating.recommend
+  );
+}
+
 /** One venue entry inside the submit payload's `venues` map. */
 export interface VenueSubmission {
   category: string;

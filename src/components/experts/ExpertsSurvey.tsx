@@ -11,6 +11,7 @@ import {
   venueId,
 } from "@/lib/experts-data";
 import type { ExpertsSurveyPayload, VenueRatingState, VenueSubmission } from "@/lib/experts-types";
+import { isRatingComplete } from "@/lib/experts-types";
 
 type Step = 1 | 2 | 3 | 4;
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
@@ -33,6 +34,7 @@ export function ExpertsSurvey() {
   const [handle, setHandle] = useState("");
   const [focus, setFocus] = useState<Set<string>>(new Set());
   const [countEstimate, setCountEstimate] = useState("");
+  const [step1Attempted, setStep1Attempted] = useState(false);
 
   // Step 2
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<Set<string>>(new Set());
@@ -43,6 +45,7 @@ export function ExpertsSurvey() {
   const [ratings, setRatings] = useState<Record<string, VenueRatingState>>({});
   const [suggestions, setSuggestions] = useState<Record<string, string>>({});
   const [submitWarning, setSubmitWarning] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -103,11 +106,20 @@ export function ExpertsSurvey() {
     });
   }
 
+  function step1IsValid() {
+    return name.trim() && handle.trim() && focus.size > 0 && countEstimate;
+  }
+
   function goToStep(target: Step) {
+    if (target === 2 && !step1IsValid()) {
+      setStep1Attempted(true);
+      return;
+    }
     if (target === 3 && selectedCategoryIds.size === 0) {
       setCategoryWarning(true);
       return;
     }
+    setStep1Attempted(false);
     setCategoryWarning(false);
     setSubmitWarning(false);
     setStep(target);
@@ -120,6 +132,17 @@ export function ExpertsSurvey() {
       return;
     }
     setSubmitWarning(false);
+
+    const hasIncompleteVenue = Array.from(visitedVenues).some((vid) => {
+      const rating = ratings[vid];
+      return !rating || !isRatingComplete(rating);
+    });
+    if (hasIncompleteVenue) {
+      setSubmitAttempted(true);
+      return;
+    }
+    setSubmitAttempted(false);
+
     setSubmitStatus("submitting");
     setSubmitError(null);
 
@@ -234,6 +257,9 @@ export function ExpertsSurvey() {
               placeholder="Full name"
               className="w-full rounded-lg border border-cs-border bg-cs-surface px-4 py-3 text-sm text-cs-text outline-none transition-colors focus:border-cs-accent"
             />
+            {step1Attempted && !name.trim() && (
+              <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">Your name is required.</p>
+            )}
           </div>
 
           <div className="mb-7">
@@ -247,6 +273,9 @@ export function ExpertsSurvey() {
               placeholder="@yourhandle"
               className="w-full rounded-lg border border-cs-border bg-cs-surface px-4 py-3 text-sm text-cs-text outline-none transition-colors focus:border-cs-accent"
             />
+            {step1Attempted && !handle.trim() && (
+              <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">Your handle is required.</p>
+            )}
           </div>
 
           <div className="mb-7">
@@ -254,6 +283,9 @@ export function ExpertsSurvey() {
               Content focus <span className="font-normal normal-case tracking-normal">(select all that apply)</span>
             </label>
             <ChipGroup options={FOCUS_OPTIONS} selected={focus} onToggle={toggleFocus} />
+            {step1Attempted && focus.size === 0 && (
+              <p className="mt-2 text-xs text-red-500 dark:text-red-400">Select at least one.</p>
+            )}
           </div>
 
           <div className="mb-7">
@@ -261,6 +293,9 @@ export function ExpertsSurvey() {
               Roughly how many venues on our list have you visited?
             </label>
             <ChipGroup options={VISIT_COUNT_OPTIONS} value={countEstimate} onSelect={setCountEstimate} />
+            {step1Attempted && !countEstimate && (
+              <p className="mt-2 text-xs text-red-500 dark:text-red-400">Select one.</p>
+            )}
           </div>
 
           <div className="flex gap-2.5 py-7 pb-14">
@@ -371,6 +406,7 @@ export function ExpertsSurvey() {
                     categoryColor={cat.color}
                     visited={visitedVenues.has(vid)}
                     rating={ratings[vid]}
+                    showIncompleteWarning={submitAttempted}
                     onToggleVisited={() => toggleVisited(vid)}
                     onChangeRating={(patch) => patchRating(vid, patch)}
                     onToggleBestFor={(option) => toggleBestFor(vid, option)}
@@ -395,6 +431,11 @@ export function ExpertsSurvey() {
           {submitWarning && (
             <p className="mb-3 text-sm text-red-500 dark:text-red-400">
               Mark at least one venue as visited before submitting.
+            </p>
+          )}
+          {submitAttempted && (
+            <p className="mb-3 text-sm text-red-500 dark:text-red-400">
+              Some visited venues are missing required fields, marked below. The tip is the only optional one.
             </p>
           )}
           {submitStatus === "error" && submitError && (
