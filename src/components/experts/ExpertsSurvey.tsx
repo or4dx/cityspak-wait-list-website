@@ -193,10 +193,13 @@ export function ExpertsSurvey() {
 
   return (
     <div className="mx-auto max-w-2xl px-5 pb-16 pt-24">
-      <div className="mb-9 flex justify-center border-b border-cs-border pb-5">
+      <div className="mb-9 flex flex-col items-center gap-2 border-b border-cs-border pb-5">
         <span className="rounded-full border border-cs-accent/30 bg-cs-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-cs-accent">
           Venue Expert Program
         </span>
+        <a href="/#waitlist" className="text-xs text-cs-text-muted underline-offset-2 hover:text-cs-text hover:underline">
+          Not a venue expert? Join the general waitlist instead
+        </a>
       </div>
 
       {step !== 4 && (

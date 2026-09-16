@@ -4,7 +4,6 @@ import { ProblemStatement } from "@/components/ProblemStatement";
 import { Ethos } from "@/components/Ethos";
 import { DemandDashboard } from "@/components/DemandDashboard";
 import { WaitlistSection } from "@/components/WaitlistSection";
-import { ExpertsCallout } from "@/components/ExpertsCallout";
 import { Footer } from "@/components/Footer";
 
 // Re-fetch DemandDashboard's live survey data at most every 5 minutes. This
@@ -22,7 +21,6 @@ export default function Home() {
       <Ethos />
       <DemandDashboard />
       <WaitlistSection />
-      <ExpertsCallout />
       <Footer />
     </main>
   );

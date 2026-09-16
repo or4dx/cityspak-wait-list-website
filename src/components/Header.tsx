@@ -10,20 +10,12 @@ export function Header() {
             <span className="font-serif text-2xl font-bold text-cs-text">CitySpak</span>
           </a>
 
-          <div className="flex items-center gap-4">
-            <a
-              href="/experts"
-              className="hidden text-sm font-medium text-cs-text-muted transition-colors hover:text-cs-text sm:inline"
-            >
-              Venue Experts
-            </a>
-            <a
-              href="/#waitlist"
-              className="rounded-lg bg-cs-accent px-4 py-2 text-sm font-semibold text-cs-bg transition-all hover:bg-cs-accent-hover"
-            >
-              Join the waitlist
-            </a>
-          </div>
+          <a
+            href="/#waitlist"
+            className="rounded-lg bg-cs-accent px-4 py-2 text-sm font-semibold text-cs-bg transition-all hover:bg-cs-accent-hover"
+          >
+            Join the waitlist
+          </a>
         </div>
       </div>
     </header>
